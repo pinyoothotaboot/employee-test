@@ -3,9 +3,14 @@ const jwt = require('jsonwebtoken');
 
 const isAuthenticated = require('../../Middlewares/check.authentication');
 
+const ValidateBody = require('../../Middlewares/validate.body');
+
+const { authenSchema, userSignupSchema } = require('./user.schema');
+
 module.exports = function UserRoute(app, userModel, HandleError) {
     app.post('/api/signup', (req, res) => {
         let user = req.body;
+        ValidateBody(res, user, userSignupSchema, 'Invalid User Schema!');
         userModel.hasEmail(user.email)
             .then((email) => {
                 if (email) {
@@ -33,6 +38,7 @@ module.exports = function UserRoute(app, userModel, HandleError) {
 
     app.post('/api/signin', (req, res) => {
         let user = req.body;
+        ValidateBody(res, user, authenSchema, 'Invalid Authen Schema!');
         userModel.signIn(user.email)
             .then((result) => {
                 if (result) {

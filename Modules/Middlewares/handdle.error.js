@@ -3,6 +3,5 @@ module.exports = function HanddleError(res, status, msg) {
         error: {
             message: msg
         }
-
     });
 }

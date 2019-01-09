@@ -18,7 +18,6 @@ let httpServer = http.createServer(app);
 // กำหนด ENV ถ้ายังไม่มี ENV ให้เป็น development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-
 // กำหนดเงื่อนไข evironment
 // โดยถ้าเป็น development ให้มีการ log ดู โดย morgan
 // ถ้าเป็น production ไม่ต้อง log ให้มีการบีบอัดโดย compression
@@ -34,7 +33,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
-
 
 // กำหนด Header
 app.use((req, res, next) => {
@@ -59,7 +57,6 @@ MongoClient.connect(url, (err, client) => {
 
     let employeeModel = new EmployeesModel(db.collection('Employee'));
     let userModel = new UserModel(db.collection('User'));
-
 
     require('./Modules/Routes/user/user.route')(app, userModel, HanddleError);
     require('./Modules/Routes/employee/employee.route')(app, employeeModel, HanddleError);

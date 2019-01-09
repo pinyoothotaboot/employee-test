@@ -23,6 +23,7 @@ class UserModel {
             user.createdAt = new Date();
             user.status = 1;
             user.token = '';
+            user.role = 'user';
             this.userCollection.insertOne(user, (err, r) => {
                 if (err) reject('Error adding user!');
                 else resolve(r.insertedCount);

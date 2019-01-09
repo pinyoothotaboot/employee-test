@@ -1,4 +1,6 @@
 const isAuthenticated = require('../../Middlewares/check.authentication');
+const ValidateBody = require('../../Middlewares/validate.body');
+const { employeeSchema } = require('./employee.schema');
 module.exports = function EmployeeRoute(app, employeeModel, HandleError) {
 
     app.get('/api/employee', isAuthenticated, (req, res) => {
@@ -55,6 +57,7 @@ module.exports = function EmployeeRoute(app, employeeModel, HandleError) {
 
     app.post('/api/employee', isAuthenticated, (req, res) => {
         let resultObject = req.body;
+        ValidateBody(res, resultObject, employeeSchema, 'Invalid Employee Schema!');
         employeeModel.addEmployee(resultObject)
             .then((isAdded) => {
                 if (isAdded) {
@@ -72,6 +75,8 @@ module.exports = function EmployeeRoute(app, employeeModel, HandleError) {
     app.put('/api/employee', isAuthenticated, (req, res) => {
         let employee_id = req.query.employee_id;
         let resultObjectUpdate = req.body;
+
+        ValidateBody(res, resultObjectUpdate, employeeSchema, 'Invalid Employee Schema!');
 
         if (!employee_id || String(employee_id).length != 24) {
             HandleError(res, 400, 'Invalid Request!');
